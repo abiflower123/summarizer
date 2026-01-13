@@ -11,8 +11,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-    origin: ['https://medicalresearchapp.netlify.app', 'http://localhost:5173'],
-    credentials: true
+    origin: '*', // Allow all origins for troubleshooting
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS']
 }));
 app.use(express.json());
 
@@ -317,5 +318,5 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 app.get("/", (req, res) => {
-  res.send("Backend is running successfully 🚀");
+    res.send("Backend is running successfully 🚀");
 });
