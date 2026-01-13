@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { summarizeArticle } from '../api';
 
-const ArticleDetail = ({ article }) => {
+const ArticleDetail = ({ article, searchParams }) => {
     const [summary, setSummary] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -17,7 +17,8 @@ const ArticleDetail = ({ article }) => {
         try {
             setLoading(true);
             setError(null);
-            const data = await summarizeArticle(article.abstract);
+            // Pass the context (stored in App.jsx) to the API
+            const data = await summarizeArticle(article.abstract, searchParams);
             setSummary(data.summary);
         } catch (err) {
             console.error(err);

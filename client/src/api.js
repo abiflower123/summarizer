@@ -7,13 +7,34 @@ const api = axios.create({
     },
 });
 
-export const searchArticles = async (query) => {
-    const response = await api.get(`/search?query=${encodeURIComponent(query)}`);
+export const searchArticles = async (searchParams) => {
+    // Support both string (legacy) and object (advanced)
+    let params = {};
+    if (typeof searchParams === 'string') {
+        params = { query: searchParams };
+    } else {
+        params = searchParams;
+    }
+
+    const queryStr = new URLSearchParams(params).toString();
+    const response = await api.get(`/search?${queryStr}`);
     return response.data;
 };
 
-export const summarizeArticle = async (abstract) => {
-    const response = await api.post('/summarize', { abstract });
+export const summarizeArticle = async (abstract, contextParams = {}) => {
+    const response = await api.post('/summarize', {
+        abstract,
+        ...contextParams // { query, population, intervention }
+    });
+    return response.data;
+};
+
+export const summarizeBulkArticles = async (articleIds, population, intervention) => {
+    const response = await api.post('/summarize-bulk', {
+        articleIds,
+        population,
+        intervention
+    });
     return response.data;
 };
 
