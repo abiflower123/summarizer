@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: '/api', // Proxy handles redirection to localhost:5000
+    // Use Render Backend URL for production
+    baseURL: 'https://summarizer-e9lb.onrender.com',
     headers: {
         'Content-Type': 'application/json',
     },
